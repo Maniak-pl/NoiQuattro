@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import pl.maniak.noiquattro.ui.screens.StartScreen
+import pl.maniak.noiquattro.ui.screens.LoginScreen
 import pl.maniak.noiquattro.ui.theme.NoiquattroTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +19,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    StartScreen(onStartClick = {
-                        // Todo Navigate to the login screen
-                    })
+                    LoginScreen(onClickLogin = {x, y -> }) {
+
+                    }
                 }
             }
         }
