@@ -1,7 +1,6 @@
-package pl.maniak.noiquattro.ui.screens
+package pl.maniak.noiquattro.data
 
 import androidx.annotation.DrawableRes
-import com.google.android.gms.common.util.CollectionUtils.listOf
 import pl.maniak.noiquattro.R
 
 data class ItemDetail(
@@ -13,5 +12,5 @@ data class ItemDetail(
     val calories: String = "Calories: 200kcal/100g",
     val price: Float,
     @DrawableRes val image: Int = R.drawable.pizza_one,
-    val hashTags: MutableList<String> = listOf("Vegetarian", "Spicy", "Very Spicy")
+    val hashTags: MutableList<String> = mutableListOf("Vegetarian", "Spicy", "Very Spicy")
 )

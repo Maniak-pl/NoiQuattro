@@ -23,20 +23,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.maniak.noiquattro.R
+import pl.maniak.noiquattro.data.ItemDetail
+import pl.maniak.noiquattro.data.UiState
+import pl.maniak.noiquattro.data.samples.sampleHeader
+import pl.maniak.noiquattro.data.samples.sampleHomeData
 import pl.maniak.noiquattro.ui.theme.Green800
 import pl.maniak.noiquattro.ui.theme.Neutral900
 import java.util.Collections.emptyList
 
 @Composable
 fun HomeScreen(
-    // data
-    onItemClicked: () -> Unit,
+    data: UiState.Home,
+    onItemClicked: (ItemDetail) -> Unit,
     onProfileClicked: () -> Unit,
     onSearch: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     var text by remember {
         mutableStateOf("")
+    }
+    var selectedCategoryTab by rememberSaveable {
+        mutableStateOf("Pizza")
     }
 
     Column(
@@ -46,14 +53,21 @@ fun HomeScreen(
             .padding(start = 2.dp, end = 2.dp, bottom = 10.dp)
     ) {
 
-        HomeHeader()
-        WelcomeText()
+        HomeHeader(address = data.userData.address, onProfileClicked = onProfileClicked)
+        WelcomeText(name = data.userData.name)
         SearchField(text = text, onSearch = {
             text = it
             onSearch(it)
         })
         PromotionAds()
-        OfferList()
+        OfferList(
+            headers = sampleHeader, products = data.products,
+            selectedCategoryTab = selectedCategoryTab,
+            onTabClick = { category ->
+                selectedCategoryTab = category
+            },
+            onItemClicked = onItemClicked
+        )
 
     }
 }
@@ -305,6 +319,7 @@ fun WelcomeTextPreview() {
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
+        data = sampleHomeData,
         onItemClicked = {},
         onProfileClicked = {},
         onSearch = {}
