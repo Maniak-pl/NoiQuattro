@@ -12,5 +12,5 @@ data class ItemDetail(
     val calories: String = "Calories: 200kcal/100g",
     val price: Float,
     @DrawableRes val image: Int = R.drawable.pizza_one,
-    val hashTags: MutableList<String> = mutableListOf("Vegetarian", "Spicy", "Very Spicy")
+    val hashTags: List<String> = listOf("Vegetarian", "Spicy", "Very Spicy")
 )
