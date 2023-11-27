@@ -7,9 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -35,7 +33,9 @@ import pl.maniak.noiquattro.data.ItemDetail
 import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.samples.sampleItemDetailScreen
 import pl.maniak.noiquattro.ui.theme.Default50
+import pl.maniak.noiquattro.ui.theme.Green800
 import pl.maniak.noiquattro.ui.theme.Neutral100
+import pl.maniak.noiquattro.ui.theme.Neutral900
 
 @Composable
 fun ProductDetailScreen(
@@ -135,36 +135,133 @@ fun ProductDetail(
                 Row(modifier = Modifier
                     .clickable { isIngredientsExpanded = !isIngredientsExpanded }
                     .padding(top = 45.dp)) {
-                    Text(text = "Ingredients", color = Color.Gray)
-                    //Icon(imageVector = , contentDescription = null)
+
+                    val ingredientsArrow = when (isIngredientsExpanded) {
+                        true -> R.drawable.ic_arrow_up
+                        false -> R.drawable.ic_arrow_down
+                    }
+
+                    Text(
+                        text = "Ingredients",
+                        color = Color.Gray
+                    )
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = ingredientsArrow),
+                        contentDescription = null
+                    )
+                }
+
+                if (isIngredientsExpanded) {
+                    Text(
+                        modifier = Modifier.padding(top = 15.dp),
+                        text = item.ingredients,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
             }
-//            Column {
-//                Row {
-//                    Text(text = "")
-//                    Icon(imageVector =, contentDescription = null)
-//                }
-//
-//            }
-//
-//            OutlinedButton(onClick = {  }) {
-//
-//            }
+            Column {
+                Row(modifier = Modifier
+                    .clickable { isCaloriesTableExpanded = !isCaloriesTableExpanded }
+                    .padding(top = 25.dp)) {
+
+                    val caloriesArrow = when (isCaloriesTableExpanded) {
+                        true -> R.drawable.ic_arrow_up
+                        false -> R.drawable.ic_arrow_down
+                    }
+
+                    Text(
+                        text = "Calories",
+                        color = Color.Gray
+                    )
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = caloriesArrow),
+                        contentDescription = null
+                    )
+
+                }
+                if (isCaloriesTableExpanded) {
+                    Text(
+                        modifier = Modifier.padding(top = 15.dp),
+                        text = item.calories,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+            }
+
+            ShoppingBagButton(
+                alreadyAdded = alreadyAdded,
+                onClick = { onItemAdd(item) },
+                onGoToShoppingBag = onGoToShoppingBag
+            )
+        }
+    }
+}
+
+@Composable
+fun ShoppingBagButton(
+    alreadyAdded: Boolean,
+    onClick: () -> Unit,
+    onGoToShoppingBag: () -> Unit = {}
+) {
+    val defaultModifier = Modifier
+        .padding(vertical = 16.dp)
+        .height(48.dp)
+        .fillMaxWidth()
+
+    when (alreadyAdded) {
+        true -> {
+            OutlinedButton(
+                modifier = defaultModifier,
+                onClick = onGoToShoppingBag,
+                colors = ButtonDefaults.outlinedButtonColors(Neutral900)
+            ) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_already_added),
+                            contentDescription = null
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 10.dp),
+                            text = "Already added",
+                            color = Color.White,
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+            }
+        }
+        else -> {
+            OutlinedButton(
+                modifier = defaultModifier,
+                onClick = onClick,
+                colors = ButtonDefaults.outlinedButtonColors(Green800)
+            ) {
+                Text(
+                    text = "Add to shopping bag",
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ProductHashTag(name: String) {
-    Surface(
+    Surface(modifier = Modifier.padding(5.dp),
         elevation = 1.dp,
         shape = RoundedCornerShape(10),
         color = Default50
     ) {
         Text(
             text = name,
-            modifier = Modifier.padding(1.dp),
+            modifier = Modifier.padding(7.dp),
             color = Color.Black
         )
     }
