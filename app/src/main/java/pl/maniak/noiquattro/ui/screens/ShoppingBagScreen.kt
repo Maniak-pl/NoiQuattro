@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +20,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.maniak.noiquattro.R
@@ -33,30 +31,48 @@ import pl.maniak.noiquattro.ui.theme.Green800
 
 @Composable
 fun ShoppingBagScreen(
-    shoppingList: List<Order> = emptyList(),
+    shoppingList: List<Order>,
+    roundedDouble: Double = 0.0,
     onIncrementOrderNumber: (ItemDetail) -> Unit = {},
     onDecrementOrderNumber: (ItemDetail) -> Unit = {},
+    onPaymentClick: () -> Unit = {}
 ) {
     Column {
         Box(modifier = Modifier.padding(start = 16.dp, top = 25.dp)) {
             Text(text = "Shopping basket", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         }
 
-        ShoppingBagList(shoppingList, onIncrementOrderNumber, onDecrementOrderNumber)
+        ShoppingBagList(
+            modifier = Modifier.weight(1f),
+            shoppingList,
+            onIncrementOrderNumber,
+            onDecrementOrderNumber
+        )
 
-        SumUP()
+        SumUP(
+            roundedDouble = roundedDouble,
+            onPaymentClick = onPaymentClick
+        )
     }
 }
 
 @Composable
 fun ShoppingBagList(
+    modifier: Modifier = Modifier,
     shoppingList: List<Order>,
     onIncrementOrderNumber: (ItemDetail) -> Unit,
     onDecrementOrderNumber: (ItemDetail) -> Unit,
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(bottom = 50.dp)
+    ) {
         items(items = shoppingList) { order ->
-            ShoppingBagItem(order = order, onIncrementOrderNumber, onDecrementOrderNumber)
+            ShoppingBagItem(
+                order = order,
+                onIncrementOrderNumber,
+                onDecrementOrderNumber
+            )
         }
     }
 }
@@ -149,7 +165,76 @@ fun ShoppingBagItem(
 }
 
 @Composable
-fun SumUP() {
+fun SumUP(
+    roundedDouble: Double,
+    onPaymentClick: () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SumUpRowText(
+            textSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            leftText = "Total",
+            rightText = roundedDouble.toString()
+        )
+
+        SumUpRowText(
+            textSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            leftText = "Delivery",
+            rightText = "10.0"
+        )
+
+        SumUpRowText(
+            textSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            leftText = "Total cost",
+            rightText = (roundedDouble + 10).toString()
+        )
+
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            onClick = onPaymentClick,
+            colors = ButtonDefaults.buttonColors(Green800)
+        ) {
+            Text(
+                modifier = Modifier.padding(10.dp),
+                text = "Payment",
+                color = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+fun SumUpRowText(
+    textSize: TextUnit,
+    fontWeight: FontWeight,
+    leftText: String,
+    rightText: String,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = leftText,
+            fontSize = textSize,
+            fontWeight = fontWeight
+        )
+        Text(
+            modifier = Modifier.padding(end = 16.dp),
+            text = rightText,
+            fontSize = textSize,
+            fontWeight = fontWeight,
+            textAlign = TextAlign.End
+        )
+    }
 }
 
 @Preview(showBackground = true)
