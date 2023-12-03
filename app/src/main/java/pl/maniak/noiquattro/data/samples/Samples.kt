@@ -17,7 +17,7 @@ val sampleItemDetailZero = ItemDetail(
     name = "Three cheeses",
     date = "June 5, 2022",
     ingredients = "Mozzarella, gran padano, gouda",
-    price = 100.99f,
+    price = 25.24f,
     image = R.drawable.pizza_two
 )
 
@@ -27,7 +27,7 @@ val sampleItemDetailOne = ItemDetail(
     name = "Cheese and tomatoes",
     date = "June 5, 2022",
     ingredients = "Cheese and tomato, double pepperoni, Mexican x2",
-    price = 91.23f,
+    price = 22.8f,
     image = R.drawable.pizza_one
 )
 
@@ -38,7 +38,7 @@ val sampleItemDetailTwo = ItemDetail(
     date = "June 5, 2022",
     ingredients = "Cheese and tomato, double pepperoni, Mexican x2",
     image = R.drawable.pizza_two,
-    price = 35.99f
+    price = 8.99f
 )
 
 val sampleOrdersOne = buildList {
