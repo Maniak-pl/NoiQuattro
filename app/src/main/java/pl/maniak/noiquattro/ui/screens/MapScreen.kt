@@ -1,6 +1,6 @@
 package pl.maniak.noiquattro.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.android.gms.maps.model.CameraPosition
@@ -57,7 +59,11 @@ fun MapScreen(
             OrderMap()
         }
 
-        AnimatedVisibility(visible = isDetailVisible) {
+        AnimatedVisibility(
+            visible = isDetailVisible,
+            enter = slideIn { IntOffset(0, 100) } + fadeIn(),
+            exit = slideOut { IntOffset(0, 100) } + fadeOut()
+        ) {
             Box(contentAlignment = Alignment.BottomCenter) {
                 InfoCard(
                     name = data.name,
@@ -141,7 +147,70 @@ fun InfoCard(
                     }
                 }
             }
+
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 30.dp)
+                    .offset(y = -20.dp),
+                shape = RoundedCornerShape(12),
+                elevation = 1.dp
+            ) {
+                val placeImage = ImageVector.vectorResource(id = R.drawable.ic_place)
+                val clockImage = ImageVector.vectorResource(id = R.drawable.ic_clock)
+
+                Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+                    InfoCardRow(
+                        modifier = Modifier.padding(start = 16.dp, top = 16.dp),
+                        image = placeImage,
+                        address = sourceAddress
+                    )
+
+                    Image(
+                        modifier = Modifier
+                            .padding(start = 25.dp)
+                            .size(30.dp, 70.dp),
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.ic_line),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.LightGray)
+                    )
+
+                    InfoCardRow(
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+                        image = clockImage,
+                        address = targetAddress
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun InfoCardRow(modifier: Modifier = Modifier, image: ImageVector, address: String) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(
+            modifier = Modifier.border(1.dp, Color.LightGray, shape = CircleShape),
+            onClick = { }
+        ) {
+            Icon(
+                modifier = Modifier.size(25.dp, 25.dp),
+                tint = Green800,
+                imageVector = image,
+                contentDescription = null
+            )
+        }
+
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = address,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
