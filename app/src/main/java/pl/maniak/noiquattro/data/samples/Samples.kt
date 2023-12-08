@@ -7,9 +7,9 @@ import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.UserData
 
 val sampleUserOne =
-    UserData(1L, "John", "Smith", "123 Main Street, Apt 13a, Anytown, USA", email = "1@wp.pl", password = "1234")
+    UserData(1L, "John", "Smith", "1115 Madison Ave, New York, USA", email = "1@wp.pl", password = "1234")
 val sampleUserTwo =
-    UserData(2L, "Jacob", "Johnson", "456 Oak Street, Apt 13a, Anothercity, USA", email = "2@wp.pl", password = "1234")
+    UserData(2L, "Jacob", "Johnson", "88 Central Park West, New York, USA", email = "2@wp.pl", password = "1234")
 
 val sampleItemDetailZero = ItemDetail(
     id = 0L,
@@ -78,8 +78,8 @@ val sampleShoppingBag = UiState.ShoppingBag(itemList = sampleOrdersOne)
 val samplePayment = UiState.Payment(userData = sampleUserOne, orderList = sampleOrdersOne)
 
 val sampleMapData = UiState.Map(
-    name = "Jake",
+    name = "John",
     surname = "Smith",
-    sourceAddress = "123 Main Street",
-    targetAddress = "456 Hungerford Avenue"
+    sourceAddress = "124 Fulton St, New York",
+    targetAddress = "1115 Madison Ave, New York"
 )
