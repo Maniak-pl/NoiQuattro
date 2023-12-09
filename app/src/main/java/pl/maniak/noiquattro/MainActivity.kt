@@ -5,10 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
+import pl.maniak.noiquattro.ui.screens.HomeScreen
 import pl.maniak.noiquattro.ui.screens.LoginScreen
 import pl.maniak.noiquattro.ui.screens.StartScreen
 import pl.maniak.noiquattro.ui.theme.NoiquattroTheme
@@ -20,7 +24,8 @@ class MainActivity : ComponentActivity() {
             NoiquattroTheme {
                 Surface {
                     val navController = rememberNavController()
-                    NavigationComponent(navController = navController)
+                    val vm = viewModel<MainViewModel>()
+                    NavigationComponent(navController = navController, viewModel = vm)
                 }
             }
         }
@@ -28,19 +33,42 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationComponent(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "start") {
+fun NavigationComponent(
+    navController: NavHostController,
+    viewModel: MainViewModel,
+) {
+    val loginScope = rememberCoroutineScope()
+
+    NavHost(
+        navController = navController,
+        startDestination = "start"
+    ) {
+
         composable(route = "start") {
             StartScreen(onStartClick = { navController.navigate("login") })
         }
         composable(route = "login") {
             LoginScreen(
-                onClickLogin = { str1, str2 -> navController.navigate("home") },
+                onClickLogin = { email, password ->
+                    loginScope.launch {
+                        viewModel.login(email, password)
+                        navController.navigate("home")
+                    }
+                },
                 onClickGoogle = {}
             )
         }
         composable(route = "home") {
+            val home = viewModel.home
 
+            if (home != null) {
+                HomeScreen(
+                    data = home,
+                    onItemClicked = {},
+                    onProfileClicked = {},
+                    onSearch = {}
+                )
+            }
         }
         composable(route = "item_detail") {
 
