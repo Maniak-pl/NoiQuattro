@@ -7,9 +7,9 @@ import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.UserData
 
 val sampleUserOne =
-    UserData(1L, "John", "Smith", "1115 Madison Ave, New York, USA", email = "1@wp.pl", password = "1234")
+    UserData(1L, "John", "Smith", "1115 Madison Ave, New York, USA", email = "john@wp.pl", password = "1234")
 val sampleUserTwo =
-    UserData(2L, "Jacob", "Johnson", "88 Central Park West, New York, USA", email = "2@wp.pl", password = "1234")
+    UserData(2L, "Jacob", "Johnson", "88 Central Park West, New York, USA", email = "jacob@wp.pl", password = "1234")
 
 val sampleItemDetailZero = ItemDetail(
     id = 0L,
@@ -17,7 +17,7 @@ val sampleItemDetailZero = ItemDetail(
     name = "Three cheeses",
     date = "June 5, 2022",
     ingredients = "Mozzarella, gran padano, gouda",
-    price = 25.24f,
+    price = 25.25f,
     image = R.drawable.pizza_two
 )
 
@@ -38,7 +38,7 @@ val sampleItemDetailTwo = ItemDetail(
     date = "June 5, 2022",
     ingredients = "Cheese and tomato, double pepperoni, Mexican x2",
     image = R.drawable.pizza_two,
-    price = 8.99f
+    price = 8.90f
 )
 
 val sampleOrdersOne = buildList {

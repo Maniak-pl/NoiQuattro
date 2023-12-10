@@ -1,6 +1,5 @@
 package pl.maniak.noiquattro.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +24,7 @@ import pl.maniak.noiquattro.R
 import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.samples.samplePayment
 import pl.maniak.noiquattro.ui.theme.Green800
+import java.util.Locale
 
 @Composable
 fun PaymentScreen(
@@ -35,8 +35,7 @@ fun PaymentScreen(
 
     val roundedDouble by remember {
         val totalAmount = data.orderList.sumOf { it.item.price.toDouble() * it.count }
-        Log.d("TAG", "PaymentScreen() item = ${data.orderList[2].item.price}, totalAmount = $totalAmount")
-        val rounded = String.format("%.2f", totalAmount)
+        val rounded = String.format(Locale.US,"%.2f", totalAmount)
         mutableStateOf(rounded)
     }
 

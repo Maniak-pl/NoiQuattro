@@ -8,6 +8,7 @@ import pl.maniak.noiquattro.data.ItemDetail
 import pl.maniak.noiquattro.data.Order
 import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.UserData
+import java.util.Locale
 import kotlin.math.max
 
 class MainViewModel : ViewModel() {
@@ -40,22 +41,25 @@ class MainViewModel : ViewModel() {
     var orderHistory by mutableStateOf(UiState.OrderHistory(emptyList()))
         private set
 
-    suspend fun login(email: String, password: String) {
-        userData = repository.login(email, password) ?: throw Exception("User not found")
-        updateHomeState()
+    suspend fun login(email: String, password: String, onSuccessAction: () -> Unit, onErrorAction: (String) -> Unit) {
+        repository.login(email, password)?.let {
+            userData = it
+            updateHomeState()
+            onSuccessAction()
+        } ?: onErrorAction("User not found")
     }
 
     private fun updateHomeState() {
         home = UiState.Home(products = repository.getAllItems(), userData = userData)
     }
 
-    fun setItemDetail(id: Long) {
+    fun updateItemState(id: Long) {
         val itemDetail = repository.getItemDetail(id)
         val isAlreadyAdded = shoppingBag.flatMap { listOf(it.item) }.contains(itemDetail)
 
         val newState = UiState.ItemDetailScreen(
-            item = itemDetail ?: throw Exception("Item not found"),
-            alreadyAdded = isAlreadyAdded,
+            item = itemDetail!!,
+            alreadyAdded = isAlreadyAdded
         )
 
         item = newState
@@ -74,7 +78,7 @@ class MainViewModel : ViewModel() {
         item = newState
 
         val totalAmount = shoppingBag.sumOf { it.item.price.toDouble() * it.count }
-        val roundedDouble = String.format("%.2f", totalAmount).toDouble()
+        val roundedDouble = String.format(Locale.US, "%.2f", totalAmount).toDouble()
 
         amount = roundedDouble
     }
@@ -87,7 +91,7 @@ class MainViewModel : ViewModel() {
         shoppingBag = shoppingBag.plus(order)
 
         val totalAmount = shoppingBag.sumOf { it.item.price.toDouble() * it.count }
-        val roundedDouble = String.format("%.2f", totalAmount).toDouble()
+        val roundedDouble = String.format(Locale.US, "%.2f", totalAmount).toDouble()
 
         amount = roundedDouble
     }
@@ -112,7 +116,7 @@ class MainViewModel : ViewModel() {
         }
 
         val totalAmount = shoppingBag.sumOf { it.item.price.toDouble() * it.count }
-        val roundedDouble = String.format("%.2f", totalAmount).toDouble()
+        val roundedDouble = String.format(Locale.US, "%.2f", totalAmount).toDouble()
 
         amount = roundedDouble
     }
@@ -143,7 +147,7 @@ class MainViewModel : ViewModel() {
             name = userData.name,
             surname = userData.surname,
             sourceAddress = "124 Fulton St, New York",
-            targetAddress = userData.address,
+            targetAddress = userData.address
         )
     }
 
@@ -153,5 +157,9 @@ class MainViewModel : ViewModel() {
             surname = userData.surname,
             email = userData.email
         )
+    }
+
+    fun clearShoppingBag() {
+        shoppingBag = setOf()
     }
 }
