@@ -1,18 +1,36 @@
 package pl.maniak.noiquattro.ui.screens
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.android.gms.maps.model.LatLng
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.*
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,12 +46,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
+import pl.maniak.noiquattro.R
 import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.samples.sampleMapData
-import pl.maniak.noiquattro.R
 import pl.maniak.noiquattro.ui.theme.Default50
 import pl.maniak.noiquattro.ui.theme.Green800
 import pl.maniak.noiquattro.ui.theme.Neutral900
@@ -48,14 +68,23 @@ fun MapScreen(
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column {
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = "Your order",
-                textAlign = TextAlign.Start,
-                color = Color.Black,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+            val arrowLeft = ImageVector.vectorResource(id = R.drawable.ic_arrow_left)
+
+            Row(
+                modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = arrowLeft,
+                    contentDescription = "Arrow left"
+                )
+                Text(
+                    text = "Your order",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
             OrderMap()
         }
 
@@ -108,30 +137,33 @@ fun InfoCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(60.dp, 60.dp)
-                        .padding(end = 16.dp),
-                    bitmap = profileImage, contentDescription = "Profile image"
-                )
-
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "$name $surname",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        modifier = Modifier
+                            .size(60.dp, 60.dp)
+                            .padding(end = 16.dp),
+                        bitmap = profileImage, contentDescription = "Profile image"
                     )
 
-                    Text(
-                        text = "123-456-789",
-                        fontWeight = FontWeight.Light,
-                        color = Color.White
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "$name $surname",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
 
+                        Text(
+                            text = "123-456-789",
+                            fontWeight = FontWeight.Light,
+                            color = Color.White
+                        )
+
+                    }
                 }
+
                 Surface(shape = CircleShape, color = Default50) {
                     IconButton(modifier = Modifier.border(
                         1.dp, Color.LightGray,
@@ -190,10 +222,10 @@ fun InfoCard(
 fun InfoCardRow(modifier: Modifier = Modifier, image: ImageVector, address: String) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            modifier = Modifier.border(1.dp, Color.LightGray, shape = CircleShape),
+            modifier = Modifier.border(1.dp, Default50, shape = CircleShape)
+                .background(color = Default50, shape = CircleShape),
             onClick = { }
         ) {
             Icon(
@@ -205,7 +237,7 @@ fun InfoCardRow(modifier: Modifier = Modifier, image: ImageVector, address: Stri
         }
 
         Text(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(start = 5.dp, top = 15.dp),
             text = address,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -225,6 +257,22 @@ fun OrderMap(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         elevation = 1.dp
     ) {
+
+        Box(contentAlignment = Alignment.TopCenter) {
+            OutlinedButton(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(Green800),
+                shape = RoundedCornerShape(20)
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 30.dp),
+                    text = "15 min",
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+            }
+        }
+
         GoogleMap(
             modifier = modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState

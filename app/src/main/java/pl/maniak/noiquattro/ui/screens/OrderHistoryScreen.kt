@@ -1,11 +1,25 @@
 package pl.maniak.noiquattro.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +45,33 @@ fun OrderHistoryScreen(
     data: UiState.OrderHistory,
     onEmptyHistoryClick: () -> Unit = {}
 ) {
-    when (data.orderList.isEmpty()) {
-        true -> EmptyOrderHistory(onEmptyHistoryClick)
-        false -> OrderHistory(data.orderList)
+    Column {
+        BackHeader()
+        when (data.orderList.isEmpty()) {
+            true -> EmptyOrderHistory(onEmptyHistoryClick)
+            false -> OrderHistory(data.orderList)
+        }
+    }
+}
+
+@Composable
+fun BackHeader() {
+    val arrowLeft = ImageVector.vectorResource(id = R.drawable.ic_arrow_left)
+
+    Row(
+        modifier = Modifier.padding(top = 20.dp, start = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = arrowLeft,
+            contentDescription = "Arrow left"
+        )
+
+        Text(
+            text = "Back",
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
     }
 }
 
@@ -143,8 +181,7 @@ fun OrderHistoryItem(order: Order) {
 fun OrderHistoryHeader(orderNumber: Int) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 16.dp),
+            .fillMaxWidth(),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(

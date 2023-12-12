@@ -18,6 +18,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Visibility
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.maniak.noiquattro.R
 import pl.maniak.noiquattro.ui.theme.Green800
+import pl.maniak.noiquattro.ui.theme.Neutral100
 
 
 @Composable
@@ -109,7 +111,8 @@ fun LoginScreen(
                 email = ""
                 password = ""
             },
-            colors = ButtonDefaults.buttonColors(Green800)
+            colors = ButtonDefaults.buttonColors(Green800),
+            shape = RoundedCornerShape(20)
         ) {
 
             Text(text = "Log in", color = Color.White)
@@ -120,7 +123,9 @@ fun LoginScreen(
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .height(48.dp)
                 .fillMaxWidth(),
-            onClick = { onClickGoogle() }) {
+            onClick = { onClickGoogle() },
+            shape = RoundedCornerShape(20)
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 Icon(
@@ -135,7 +140,7 @@ fun LoginScreen(
         }
 
         Box(
-            modifier = Modifier.padding(top = 30.dp),
+            modifier = Modifier.padding(top = 80.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
             Row {
@@ -171,12 +176,16 @@ fun EmailTextField(
                 .padding(16.dp),
             value = text,
             onValueChange = onValueChange,
-            shape = RoundedCornerShape(10),
+            shape = RoundedCornerShape(20),
             label = { Text(text = textLabel) },
             leadingIcon = {
                 val emailIcon = Icons.Filled.Email
                 Icon(imageVector = emailIcon, contentDescription = null)
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Neutral100,
+                unfocusedIndicatorColor = Color.Transparent
+            )
         )
     }
 }
@@ -220,7 +229,11 @@ fun PasswordTextField(
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(imageVector = passwordIcon, contentDescription = description)
                 }
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Neutral100,
+                unfocusedIndicatorColor = Color.Transparent
+            )
         )
     }
 }

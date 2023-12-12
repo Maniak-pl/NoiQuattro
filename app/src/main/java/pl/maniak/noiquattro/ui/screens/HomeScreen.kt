@@ -1,14 +1,36 @@
 package pl.maniak.noiquattro.ui.screens
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +50,7 @@ import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.samples.sampleHeader
 import pl.maniak.noiquattro.data.samples.sampleHomeData
 import pl.maniak.noiquattro.ui.theme.Green800
+import pl.maniak.noiquattro.ui.theme.Neutral100
 import pl.maniak.noiquattro.ui.theme.Neutral900
 import java.util.Collections.emptyList
 
@@ -102,7 +125,8 @@ fun HomeHeader(
                 )
                 Icon(
                     imageVector = arrowIcon,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = Green800
                 )
             }
 
@@ -157,57 +181,96 @@ fun SearchField(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
                 contentDescription = null
             )
-        })
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Neutral100,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(20),
+    )
 }
 
 @Composable
 fun PromotionAds() {
-    Surface(
-        color = Neutral900,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 10.dp, end = 10.dp),
-        elevation = 2.dp,
-        shape = RoundedCornerShape(10)
-    ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(start = 10.dp, top = 16.dp)) {
-                Text(
-                    text = "-20% discount",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(text = "Vegetarian pizza", color = Color.White)
-                IconButton(
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .border(
-                            border = BorderStroke(1.dp, Color.LightGray),
-                            shape = RoundedCornerShape(10)
-                        ),
-                    onClick = { }) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right),
+    val currentPosition by remember {
+        mutableStateOf(0)
+    }
+    Column {
+        Surface(
+            color = Neutral900,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp),
+            elevation = 2.dp,
+            shape = RoundedCornerShape(10)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(start = 10.dp, top = 16.dp)) {
+                    Text(
+                        text = "-20% discount",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(text = "Vegetarian pizza", color = Color.White)
+                    IconButton(
+                        modifier = Modifier
+                            .padding(top = 10.dp)
+                            .border(
+                                border = BorderStroke(1.dp, Color.Gray),
+                                shape = RoundedCornerShape(20)
+                            ),
+                        onClick = { }) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right),
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+
+                    }
+                }
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(150.dp, 150.dp),
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.pizza_three),
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            for (i in 0..2) {
+                val currentPositionImage = ImageVector.vectorResource(id = R.drawable.ic_current_position)
+                val otherPositionImage = ImageVector.vectorResource(id = R.drawable.ic_circle)
+
+                when (i == currentPosition) {
+                    true -> Image(
+                        modifier = Modifier.size(30.dp, 50.dp),
+                        imageVector = currentPositionImage,
                         contentDescription = null,
-                        tint = Color.White
+                        colorFilter = ColorFilter.tint(Green800)
+                    )
+
+                    false -> Image(
+                        modifier = Modifier.size(10.dp, 10.dp),
+                        imageVector = otherPositionImage,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.LightGray)
                     )
 
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(150.dp, 150.dp),
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.pizza_three),
-                    contentDescription = null
-                )
-            }
         }
     }
+
 }
 
 @Composable
@@ -294,10 +357,10 @@ fun TabHeaders(
         items(items = headers) { header ->
             Text(modifier = Modifier
                 .clickable { onTabClick(header) }
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(horizontal = 16.dp, vertical = 15.dp),
                 text = header,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 color = if (selectedTab == header) Color.Black else Color.Gray)
         }
     }
