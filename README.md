@@ -22,6 +22,6 @@ This project uses the following dependencies
 
 ## Screenshots
 
-<img src="screen/screen_1.png" alt="Screenshot 1" width="25%" /> <img src="screen/screen_2.png" alt="Screenshot 2" width="25%" /> <img src="screen/screen_3.png" alt="Screenshot 3" width="25%" /> <img src="screen/screen_4.png" alt="Screenshot 4" width="25%" /> 
+<img src="screen/screen_1.png" alt="Screenshot 1" width="24%" /> <img src="screen/screen_2.png" alt="Screenshot 2" width="24%" /> <img src="screen/screen_3.png" alt="Screenshot 3" width="24%" /> <img src="screen/screen_4.png" alt="Screenshot 4" width="24%" /> 
 
-<img src="screen/screen_5.png" alt="Screenshot 5" width="25%" /> <img src="screen/screen_6.png" alt="Screenshot 6" width="25%" /> <img src="screen/screen_7.png" alt="Screenshot 7" width="25%" /> <img src="screen/screen_8.png" alt="Screenshot 8" width="25%" /> 
+<img src="screen/screen_5.png" alt="Screenshot 5" width="24%" /> <img src="screen/screen_6.png" alt="Screenshot 6" width="24%" /> <img src="screen/screen_7.png" alt="Screenshot 7" width="24%" /> <img src="screen/screen_8.png" alt="Screenshot 8" width="24%" /> 
