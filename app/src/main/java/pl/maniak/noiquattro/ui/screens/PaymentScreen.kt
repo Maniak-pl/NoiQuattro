@@ -3,10 +3,27 @@ package pl.maniak.noiquattro.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +52,7 @@ fun PaymentScreen(
 
     val roundedDouble by remember {
         val totalAmount = data.orderList.sumOf { it.item.price.toDouble() * it.count }
-        val rounded = String.format(Locale.US,"%.2f", totalAmount)
+        val rounded = String.format(Locale.US, "%.2f", (totalAmount + 10))
         mutableStateOf(rounded)
     }
 
@@ -127,7 +144,7 @@ fun PaymentAddress(address: String = "") {
                     modifier = Modifier.padding(end = 16.dp),
                     imageVector = placeIcon,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(Color.Black)
+                    colorFilter = ColorFilter.tint(Color.Gray)
                 )
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(
@@ -173,7 +190,7 @@ fun PaymentTotalCost(totalAmount: String = "") {
             fontSize = 25.sp
         )
         Text(
-            text = totalAmount,
+            text = "$" + totalAmount,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             fontSize = 25.sp
@@ -186,15 +203,17 @@ fun PaymentButton(onPayClick: () -> Unit = {}) {
     OutlinedButton(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .height(60.dp),
         onClick = { onPayClick() },
         colors = ButtonDefaults.buttonColors(Green800),
+        shape = RoundedCornerShape(20),
     ) {
         Text(
             text = "Pay",
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            fontSize = 25.sp, color = Color.White
+            fontSize = 18.sp, color = Color.White
         )
     }
 }
@@ -220,7 +239,7 @@ fun PaymentAddressPreview() {
 @Preview(showBackground = true)
 @Composable
 fun PaymentTotalCostPreview() {
-    PaymentTotalCost(totalAmount = "$385")
+    PaymentTotalCost(totalAmount = "385")
 }
 
 @Preview(showBackground = true)

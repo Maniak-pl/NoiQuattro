@@ -147,15 +147,17 @@ fun ProductDetail(
                     modifier = Modifier.weight(1f),
                     fontSize = 25.sp,
                     fontWeight = FontWeight.SemiBold,
-                    text = item.price.toString(),
-                    textAlign = TextAlign.Center
+                    text = "$" + item.price.toString(),
+                    textAlign = TextAlign.End
                 )
             }
 
             Column {
                 Row(modifier = Modifier
+                    .fillMaxWidth()
                     .clickable { isIngredientsExpanded = !isIngredientsExpanded }
-                    .padding(top = 45.dp)) {
+                    .padding(top = 45.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween) {
 
                     val ingredientsArrow = when (isIngredientsExpanded) {
                         true -> R.drawable.ic_arrow_up
@@ -164,11 +166,14 @@ fun ProductDetail(
 
                     Text(
                         text = "Ingredients",
-                        color = Color.Gray
+                        color = Color.Gray,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
                     )
                     Icon(
                         imageVector = ImageVector.vectorResource(id = ingredientsArrow),
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Green800
                     )
                 }
 
@@ -183,8 +188,10 @@ fun ProductDetail(
             }
             Column {
                 Row(modifier = Modifier
+                    .fillMaxWidth()
                     .clickable { isCaloriesTableExpanded = !isCaloriesTableExpanded }
-                    .padding(top = 25.dp)) {
+                    .padding(top = 25.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween) {
 
                     val caloriesArrow = when (isCaloriesTableExpanded) {
                         true -> R.drawable.ic_arrow_up
@@ -193,11 +200,14 @@ fun ProductDetail(
 
                     Text(
                         text = "Calories",
-                        color = Color.Gray
+                        color = Color.Gray,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
                     )
                     Icon(
                         imageVector = ImageVector.vectorResource(id = caloriesArrow),
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Green800
                     )
 
                 }
@@ -227,32 +237,52 @@ fun ShoppingBagButton(
     onGoToShoppingBag: () -> Unit = {}
 ) {
     val defaultModifier = Modifier
-        .padding(vertical = 16.dp)
-        .height(48.dp)
         .fillMaxWidth()
+        .padding(vertical = 48.dp)
+        .height(60.dp)
 
     when (alreadyAdded) {
         true -> {
             OutlinedButton(
                 modifier = defaultModifier,
                 onClick = onGoToShoppingBag,
-                colors = ButtonDefaults.outlinedButtonColors(Neutral900)
+                colors = ButtonDefaults.outlinedButtonColors(Neutral900),
+                shape = RoundedCornerShape(20)
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_already_added),
-                            contentDescription = null
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 10.dp),
-                            text = "Already added",
-                            color = Color.White,
-                            fontSize = 18.sp
-                        )
+                        Row() {
+                            Image(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_already_added),
+                                contentDescription = null
+                            )
+                            Text(
+                                modifier = Modifier.padding(start = 10.dp),
+                                text = "Added",
+                                color = Color.White,
+                                fontSize = 18.sp
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                                text = "Shopping bag",
+                                color = Color.White,
+                                fontSize = 18.sp
+                            )
+                            Image(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right),
+                                contentDescription = null
+                            )
+                        }
+
                     }
                 }
             }
@@ -262,7 +292,9 @@ fun ShoppingBagButton(
             OutlinedButton(
                 modifier = defaultModifier,
                 onClick = onClick,
-                colors = ButtonDefaults.outlinedButtonColors(Green800)
+                colors = ButtonDefaults.outlinedButtonColors(Green800),
+                shape = RoundedCornerShape(20)
+
             ) {
                 Text(
                     text = "Add to shopping bag",
@@ -279,13 +311,14 @@ fun ProductHashTag(name: String) {
     Surface(
         modifier = Modifier.padding(5.dp),
         elevation = 1.dp,
-        shape = RoundedCornerShape(10),
+        shape = RoundedCornerShape(20),
         color = Default50
     ) {
         Text(
             text = name,
             modifier = Modifier.padding(7.dp),
-            color = Color.Black
+            color = Green800,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -293,5 +326,5 @@ fun ProductHashTag(name: String) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProductDetailScreenPreview() {
-    ProductDetailScreen(sampleItemDetailScreen)
+    ProductDetailScreen(sampleItemDetailScreen.copy(alreadyAdded = true))
 }

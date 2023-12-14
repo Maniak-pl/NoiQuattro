@@ -257,6 +257,16 @@ fun OrderMap(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         elevation = 1.dp
     ) {
+        GoogleMap(
+            modifier = modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState
+        ) {
+            Marker(
+                state = MarkerState(startPlace),
+                title = "Joe’s Pizza",
+                snippet = "124 Fulton St, New York, NY 10038, USA"
+            )
+        }
 
         Box(contentAlignment = Alignment.TopCenter) {
             OutlinedButton(
@@ -271,17 +281,6 @@ fun OrderMap(modifier: Modifier = Modifier) {
                     fontSize = 18.sp
                 )
             }
-        }
-
-        GoogleMap(
-            modifier = modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
-        ) {
-            Marker(
-                state = MarkerState(startPlace),
-                title = "Joe’s Pizza",
-                snippet = "124 Fulton St, New York, NY 10038, USA"
-            )
         }
     }
 }

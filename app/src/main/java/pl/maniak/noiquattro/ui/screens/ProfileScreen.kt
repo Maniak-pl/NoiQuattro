@@ -2,7 +2,14 @@ package pl.maniak.noiquattro.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -143,10 +150,12 @@ fun ProfileButton(
     val arrowRight = ImageVector.vectorResource(id = R.drawable.ic_right)
 
     OutlinedButton(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 3.dp)
+            .height(60.dp),
         colors = ButtonDefaults.buttonColors(Color.White),
         onClick = onClick,
-        shape = RoundedCornerShape(10)
+        shape = RoundedCornerShape(20)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

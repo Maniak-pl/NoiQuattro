@@ -69,7 +69,7 @@ fun StartScreen(onStartClick: () -> Unit = {}) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 100.dp)
-                .height(48.dp),
+                .height(60.dp),
             shape = RoundedCornerShape(20),
             colors = ButtonDefaults.buttonColors(Green800),
             onClick = { onStartClick() }) {
@@ -78,7 +78,8 @@ fun StartScreen(onStartClick: () -> Unit = {}) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Log in",
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 18.sp,
                 )
                 Icon(
                     modifier = Modifier.padding(start = 10.dp),

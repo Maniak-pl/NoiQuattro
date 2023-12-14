@@ -4,11 +4,27 @@ package pl.maniak.noiquattro.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,9 +54,7 @@ fun ShoppingBagScreen(
     onPaymentClick: () -> Unit = {}
 ) {
     Column {
-        Box(modifier = Modifier.padding(start = 16.dp, top = 25.dp)) {
-            Text(text = "Shopping basket", fontWeight = FontWeight.Bold, fontSize = 25.sp)
-        }
+        ShoppingHeader()
 
         ShoppingBagList(
             modifier = Modifier.weight(1f),
@@ -55,6 +69,27 @@ fun ShoppingBagScreen(
         )
     }
 }
+
+@Composable
+fun ShoppingHeader() {
+    val arrowLeft = ImageVector.vectorResource(id = R.drawable.ic_arrow_left)
+
+    Row(
+        modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = arrowLeft,
+            contentDescription = "Arrow left"
+        )
+        Text(
+            text = "Shopping basket",
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
+    }
+}
+
 
 @Composable
 fun ShoppingBagList(
@@ -153,12 +188,19 @@ fun ShoppingBagItem(
                     }
                 }
 
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = order.item.price.toString(),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .offset(y = 29.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "$" + order.item.price.toString(),
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+
             }
         }
     }
@@ -174,6 +216,7 @@ fun SumUP(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SumUpRowText(
+            modifier = Modifier.padding(top = 5.dp),
             textSize = 18.sp,
             fontWeight = FontWeight.Light,
             leftText = "Total",
@@ -188,6 +231,7 @@ fun SumUP(
         )
 
         SumUpRowText(
+            modifier = Modifier.padding(top = 5.dp),
             textSize = 25.sp,
             fontWeight = FontWeight.Bold,
             leftText = "Total cost",
@@ -199,12 +243,14 @@ fun SumUP(
                 .fillMaxWidth()
                 .padding(10.dp),
             onClick = onPaymentClick,
-            colors = ButtonDefaults.buttonColors(Green800)
+            colors = ButtonDefaults.buttonColors(Green800),
+            shape = RoundedCornerShape(20)
         ) {
             Text(
                 modifier = Modifier.padding(10.dp),
                 text = "Payment",
-                color = Color.White
+                color = Color.White,
+                fontSize = 18.sp
             )
         }
     }
@@ -212,24 +258,26 @@ fun SumUP(
 
 @Composable
 fun SumUpRowText(
+    modifier: Modifier = Modifier,
     textSize: TextUnit,
     fontWeight: FontWeight,
     leftText: String,
     rightText: String,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = modifier.padding(start = 16.dp),
             text = leftText,
             fontSize = textSize,
-            fontWeight = fontWeight
+            fontWeight = fontWeight,
+            color = Color.Gray
         )
         Text(
-            modifier = Modifier.padding(end = 16.dp),
-            text = rightText,
+            modifier = modifier.padding(end = 16.dp),
+            text = "$" + rightText,
             fontSize = textSize,
             fontWeight = fontWeight,
             textAlign = TextAlign.End

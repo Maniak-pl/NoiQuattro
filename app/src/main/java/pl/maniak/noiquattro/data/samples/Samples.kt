@@ -7,9 +7,9 @@ import pl.maniak.noiquattro.data.UiState
 import pl.maniak.noiquattro.data.UserData
 
 val sampleUserOne =
-    UserData(1L, "John", "Smith", "1115 Madison Ave, New York, USA", email = "john@wp.pl", password = "1234")
+    UserData(1L, "John", "Smith", "1115 Madison Ave, New York, USA", email = "john@wp.com", password = "1234")
 val sampleUserTwo =
-    UserData(2L, "Jacob", "Johnson", "88 Central Park West, New York, USA", email = "jacob@wp.pl", password = "1234")
+    UserData(2L, "Jacob", "Johnson", "88 Central Park West, New York, USA", email = "jacob@wp.com", password = "1234")
 
 val sampleItemDetailZero = ItemDetail(
     id = 0L,
